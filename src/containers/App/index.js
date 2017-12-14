@@ -1,21 +1,16 @@
 import React, { Component } from 'react';
-import { Layout } from 'antd';
 import Games from '../Games';
 import HeaderWrapper from '../../components/Header';
-const { Content, Footer } = Layout;
+import FooterWrapper from '../../components/Footer';
+// import MyIconName from 'material-ui/svg-icons/<category>/<name>';
 
 class App extends Component {
     render() {
         return (
-            <Layout>
-                <HeaderWrapper />
-                <Layout>
-                    <Content>
-                        <Games />
-                    </Content>
-                </Layout>
-                <Footer>Footer</Footer>
-            </Layout>
+            <div>
+                <HeaderWrapper/>
+                <FooterWrapper/>
+            </div>
         );
     }
 }
