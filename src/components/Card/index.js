@@ -41,7 +41,6 @@ class CardWrapper extends Component {
                     <h3>Form Items</h3>
                     <InputField placeholder="Enter username" label="Username" />
                     <InputField placeholder="Enter Password" label="Password" type="password" />
-                    <InputField placeholder="Enter Password" label="Password" type="password" multiLine={true} />
                     <SelectField
                       floatingLabelText="Select Gender"
                       fullWidth={true}

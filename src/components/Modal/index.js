@@ -4,10 +4,11 @@ import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import InputField from '../Input';
 import styled from 'styled-components';
+import { colors } from '../../variables';
 
 const DialogWrapper = styled(Dialog)`
     h3 {
-        background: #2a6667;
+        background: ${colors.primary[0]};
         color: white!important;
         padding: 16px!important;
     }
@@ -30,8 +31,6 @@ class AppModal extends Component {
     const actions = [
       <FlatButton
         label="Cancel"
-        primary={true}
-        keyboardFocused={true}
         onClick={this.handleClose}
       />,
       <FlatButton
