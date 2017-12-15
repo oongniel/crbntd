@@ -7,10 +7,14 @@ import Avatar from 'material-ui/Avatar';
 import IconMenu from 'material-ui/IconMenu';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import IconButton from 'material-ui/IconButton';
+import { colors } from '../../variables';
 
 const AppHeader = styled.div`
-    button {
-
+    position: fixed;
+    width: 100%;
+    z-index: 3;
+    > div { 
+        background: linear-gradient(to bottom right, ${colors.primary[0]}, ${colors.primary[2]});
     }
 `;
 const UserAvatar = styled(Avatar)`
@@ -36,7 +40,7 @@ class HeaderWrapper extends Component {
         return (
             <AppHeader>
                 <AppBar
-                    title="Carbonated Games"
+                    title="Niel Ong"
                     showMenuIconButton={false}
                     onLeftIconButtonClick={this._handleDrawerTrigger}
                     iconElementRight={
