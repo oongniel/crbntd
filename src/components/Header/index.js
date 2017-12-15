@@ -40,7 +40,7 @@ class HeaderWrapper extends Component {
         return (
             <AppHeader>
                 <AppBar
-                    title="Niel Ong"
+                    title="Carbonated Games"
                     showMenuIconButton={false}
                     onLeftIconButtonClick={this._handleDrawerTrigger}
                     iconElementRight={
