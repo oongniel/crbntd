@@ -16,3 +16,10 @@ export const setUserDetails = (details) => ({
     type: appConstants.USER_SET_DETAILS,
     details
 })
+
+export const setUserSignInStatus = (bool) => ({
+    type: appConstants.USER_SET_SIGN_IN_STATUS,
+    bool
+})
+
+

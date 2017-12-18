@@ -6,7 +6,7 @@ import Games from '../Games';
 import HeaderWrapper from '../../components/Header';
 import FooterWrapper from '../../components/Footer';
 import AppContent from '../Content';
-import { initServices } from './actions';
+import { initServices, setUserDetails, setUserSignInStatus } from './actions';
 import { config } from '../../config';
 import { loadScript } from '../../util';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -14,52 +14,58 @@ import RaisedButton from 'material-ui/RaisedButton';
 class App extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            isSignedIn: false,
-            googleUser: null,
-            auth2: null
-        }
-    }
-    componentDidUpdate() {
+    };
 
-    }
     componentDidMount() {
-        const component = this;
-        // gapi.load('client', component.props.initServices);
-        if (!window.gapi) {
-          // this.loadGapiScript();
-        } else {
-          // this.setState({ apiLoaded: true })
-        }
-    }
-    init() {
-        console.log('hey')
-        gapi.load('client:auth2', this.props.initServices);
-    }
+        this.loadGapiScript();
+    };
+
     loadGapiScript() {
         // Load the google maps api script when the component is mounted.
         let component = this;
+        window.app = this;
         loadScript('https://apis.google.com/js/client.js')
-          .then((script) => {
-            gapi.load('client:auth2', component.props.initServices);
-          })
-          .catch((err: Error) => {
-            console.error(err.message);
-          });
-  }
+            .then((script) => {
+                gapi.load('auth2', component.initSigninV2);
+            })
+            .catch((err: Error) => {
+                console.error(err.message);
+            });
+    };
+
+    initSigninV2() {
+        console.log(this)
+        const { setUserDetails, setUserSignInStatus, appReducer } = window.app.props;
+        const { signedIn } = appReducer;
+        const auth2 = gapi.auth2.init({
+            client_id: config.CLIENT_ID,
+            scope: config.SCOPE
+        });
+
+        auth2.currentUser.listen((user) => {
+            // console.log('User now: ', user, typeof user);
+            setUserDetails(user);
+        });
+
+        auth2.isSignedIn.listen((val) => {
+            // console.log('Signin state changed to ', val);
+            setUserSignInStatus(val);
+        });
+
+        auth2.then(function () {
+          if (!auth2.isSignedIn.get()) {
+            auth2.signIn();
+          }
+        });
+    };
+
     render() {
-        const { isSignedIn } = this.state;
-        const { initServices } = this.props;
-        const { userDetails } = this.props.appReducer;
-        console.log(this.props.appReducer)
-        const style = {
-          margin: 12,
-        };
+        const { userDetails, signedIn } = this.props.appReducer;
         return (
             <div>
-                {!userDetails.userDetails && <RaisedButton onClick={this.init.bind(this)} label="Sign In" primary={true} style={style} />}
-                {userDetails.userDetails && <div>
-                    <HeaderWrapper />
+                {!signedIn && <div>Please sign in</div>}
+                {signedIn && <div>
+                    <HeaderWrapper data={userDetails}/>
                     <AppContent />
                     <FooterWrapper />
                 </div>}
@@ -70,14 +76,16 @@ class App extends Component {
 
 
 const mapStateToProps = (state) => {
-    console.log(state)
     return {
         appReducer: state.appReducer
     }
 };
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators(
-        { initServices },
+        {   initServices,
+            setUserSignInStatus,
+            setUserDetails
+        },
     dispatch)
 }
 

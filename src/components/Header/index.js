@@ -22,6 +22,14 @@ const Logo = styled.img`
     height: calc(100% - 20px);
     padding: 10px 0;
 `;
+const Greeting = styled.div`
+    position: absolute;
+    top: 0;
+    right: 120px;
+    color: white;
+    font-size: 14px;
+    top: 24px;
+`;
 
 class HeaderWrapper extends Component {
     constructor(props) {
@@ -37,6 +45,8 @@ class HeaderWrapper extends Component {
     }
 
     render() {
+        const { data } = this.props;
+        const { U3, ofa } = data.w3;
         return (
             <AppHeader>
                 <AppBar
@@ -52,11 +62,12 @@ class HeaderWrapper extends Component {
                             targetOrigin={{horizontal: 'right', vertical: 'top'}}
                             anchorOrigin={{horizontal: 'right', vertical: 'top'}}
                         >
-                            <MenuItem primaryText="oongniel@gmail.com" />
+                            <MenuItem primaryText={U3} />
                             <MenuItem primaryText="Sign out" />
                         </IconMenu>
                     }
                 >
+                <Greeting>Hello, {ofa}</Greeting>
                 <UserAvatar>N</UserAvatar>
                 </AppBar>
                 <Drawer
