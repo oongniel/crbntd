@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import InputField from '../../components/Input';
+// import InputField from '../../components/Input';
 import CardWrapper from '../../components/Card';
 
 class AppContent extends Component {

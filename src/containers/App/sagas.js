@@ -2,20 +2,14 @@
 import { call, put, takeEvery, takeLatest } from 'redux-saga/effects'
 import { appConstants } from './constants';
 import { config } from '../../config';
-import { signIn, authUser } from './actions';
+import { signIn, authUser, setUserDetails } from './actions';
+
+let userInfo;
 
 function* initServices() {
     try {
-        var apisToLoad;
-        var putSignIn = yield put(signIn());
-        var callback = function() {
-            if (--apisToLoad == 0) {
-                putSignIn;
-            }
-        }
-        apisToLoad = 2;
-        gapi.client.load('services', 'v1.0', callback, '//' + window.location.host + '/_ah/api');
-        gapi.client.load('oauth2', 'v2', callback);
+        gapi.client.load('services', 'v1.0', yield put(signIn()), window.location.host + '/_ah/api');
+        gapi.client.load('oauth2', 'v2', yield put(signIn()));
     } catch(e) {
         // yield put(addGame(['Hey!', 'HEy2!']))
     }
@@ -26,7 +20,7 @@ function* initSignIn() {
         gapi.auth.authorize({
             client_id: config.CLIENT_ID,
             scope: config.SCOPE,
-            // immediate: true
+            immediate: true
         },
             yield put(authUser())
         );
@@ -36,14 +30,13 @@ function* initSignIn() {
 
 function* initUserAuth() {
     try {
-        console.log(gapi.client.oauth2.userinfo.get());
         gapi.client.oauth2.userinfo.get().execute(function(resp) {
-            alert();
            if (!resp.code) {
-                // carbonated.services.signedIn = true;
-                console.log('auth', resp)
+                userInfo = resp;
             }
         });
+        console.log(userInfo)
+        yield put(setUserDetails(userInfo))
     } catch(e) {
 
     }

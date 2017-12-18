@@ -11,3 +11,8 @@ export const signIn = () => ({
 export const authUser = () => ({
     type: appConstants.USER_AUTH
 })
+
+export const setUserDetails = (details) => ({
+    type: appConstants.USER_SET_DETAILS,
+    details
+})
