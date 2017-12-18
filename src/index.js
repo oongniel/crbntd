@@ -11,7 +11,6 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { themes } from './themes';
 
 const muiTheme = getMuiTheme(themes.muiTheme);
-
 ReactDOM.render(
     <Provider store={store}>
         <MuiThemeProvider muiTheme={muiTheme}>

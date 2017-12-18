@@ -41,7 +41,7 @@ class HeaderWrapper extends Component {
             <AppHeader>
                 <AppBar
                     // title="Carbonated Games"
-                    title={<div style={{ height: '100%' }}><Logo src="https://carbonated-games-dev2.appspot.com/img/carbonated.png" /> <span style={{ verticalAlign: 'top' }}>Carbonated Games</span> </div>}
+                    title={<div style={{ height: '100%' }}>{false && <Logo src="https://carbonated-games-dev2.appspot.com/img/carbonated.png" />} <span style={{ verticalAlign: 'top', color: 'white' }}>Carbonated Games</span> </div>}
                     showMenuIconButton={false}
                     onLeftIconButtonClick={this._handleDrawerTrigger}
                     iconElementRight={

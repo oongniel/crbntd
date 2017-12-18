@@ -4,9 +4,6 @@ import RaisedButton from 'material-ui/RaisedButton';
 import styled from 'styled-components';
 
 const Toast = styled(Snackbar)`
-    button {
-        color: rgb(255, 64, 129)!important;
-    }
 `;
 
 class SnackbarWrapper extends Component {
