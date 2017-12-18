@@ -23,38 +23,50 @@ const TabItem = {
 
 
 class Footer extends Component {
+    onChange(e) {
+        // console.log( e)
+    }
+    onTabActive(e) {
+        console.log(e.props.label)
+    }
     render() {
         return (
-            <TabWrapper>
+            <TabWrapper onChange={this.onChange.bind(this)}>
                 <Tab
-                  icon={<HomeIcon />}
-                  label="Home"
-                  style={TabItem}
+                    onActive={this.onTabActive.bind(this)}
+                    icon={<HomeIcon />}
+                    label="Home"
+                    style={TabItem}
                 />
                 <Tab
-                  icon={<CurrencyIcon />}
-                  label="Currencies"
-                  style={TabItem}
+                    onActive={this.onTabActive.bind(this)}
+                    icon={<CurrencyIcon />}
+                    label="Currencies"
+                    style={TabItem}
                 />
                 <Tab
-                  icon={<ProductIcon />}
-                  label="Products"
-                  style={TabItem}
+                    onActive={this.onTabActive.bind(this)}
+                    icon={<ProductIcon />}
+                    label="Products"
+                    style={TabItem}
                 />
                 <Tab
-                  icon={<EventIcon />}
-                  label="Events"
-                  style={TabItem}
+                    onActive={this.onTabActive.bind(this)}
+                    icon={<EventIcon />}
+                    label="Events"
+                    style={TabItem}
                 />
                 <Tab
-                  icon={<BuildIcon />}
-                  label="Builds"
-                  style={TabItem}
+                    onActive={this.onTabActive.bind(this)}
+                    icon={<BuildIcon />}
+                    label="Builds"
+                    style={TabItem}
                 />
                 <Tab
-                  icon={<EntitlementIcon />}
-                  label="Entitlement"
-                  style={TabItem}
+                    onActive={this.onTabActive.bind(this)}
+                    icon={<EntitlementIcon />}
+                    label="Entitlement"
+                    style={TabItem}
                 />
             </TabWrapper>
         );

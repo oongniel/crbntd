@@ -19,8 +19,10 @@ class CardWrapper extends Component {
         return (
             <Card>
                 <CardHeader
-                    title="Games"
-                    subtitle="List of Available Games"
+                    title="Niel Game"
+                    subtitle="Game description"
+                    // actAsExpander={true}
+                    // showExpandableButton={true}
                     titleStyle={{ fontSize: '2em'}}
                 >
                     <IconMenu
@@ -36,13 +38,43 @@ class CardWrapper extends Component {
                     </IconMenu>
                 </CardHeader>
                 <CardText >
+                    <h3>Form Items</h3>
+                    <InputField placeholder="Enter username" label="Username" />
+                    <InputField placeholder="Enter Password" label="Password" type="password" />
+                    <SelectField
+                      floatingLabelText="Select Gender"
+                      fullWidth={true}
+                    >
+                      <MenuItem value={1} primaryText="Never" />
+                      <MenuItem value={2} primaryText="Every Night" />
+                      <MenuItem value={3} primaryText="Weeknights" />
+                      <MenuItem value={4} primaryText="Weekends" />
+                      <MenuItem value={5} primaryText="Weekly" />
+                    </SelectField>
+                    <h3>Table/List</h3>
+                    <Table />
+                    <h3>Buttons</h3>
                     <RaisedButton
                         style={{margin: '12px'}}
-                        label="Add Game"
+                        label="Add Primary"
+                        primary={true}
+                        icon={<AddButton />}
+                    />
+                    <RaisedButton
+                        style={{margin: '12px'}}
+                        label="Add Secondary"
                         secondary={true}
                         icon={<AddButton />}
                     />
+                    <h3>Modals</h3>
+                    <AppModal />
+                    <h3>Toast Message</h3>
+                    <SnackbarWrapper />
                 </CardText>
+                {/**<CardActions>
+                    <FlatButton label="Action1" />
+                    <FlatButton label="Action2" />
+                </CardActions>**/}
               </Card>
         );
     }
