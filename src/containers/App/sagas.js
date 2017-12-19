@@ -8,7 +8,7 @@ let userInfo;
 
 function* initServices() {
     try {
-        gapi.client.load('services', 'v1.0', yield put(signIn()), window.location.host + '/_ah/api');
+        // gapi.client.load('services', 'v1.0', yield put(signIn()), window.location.host + '/_ah/api');
         gapi.client.load('oauth2', 'v2', yield put(signIn()));
     } catch(e) {
         // yield put(addGame(['Hey!', 'HEy2!']))

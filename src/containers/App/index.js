@@ -26,7 +26,7 @@ class App extends Component {
         window.app = this;
         loadScript('https://apis.google.com/js/client.js')
             .then((script) => {
-                gapi.load('auth2', component.initSigninV2);
+                gapi.load('client:auth2', component.initSigninV2);
             })
             .catch((err: Error) => {
                 console.error(err.message);
@@ -34,37 +34,66 @@ class App extends Component {
     };
 
     initSigninV2() {
-        console.log(this)
-        const { setUserDetails, setUserSignInStatus, appReducer } = window.app.props;
+        const { setUserDetails, setUserSignInStatus, appReducer, initServices } = window.app.props;
         const { signedIn } = appReducer;
-        const auth2 = gapi.auth2.init({
-            client_id: config.CLIENT_ID,
+
+        gapi.client.init({
+            // apiKey: config.API_KEY_DEV,
+            clientId: config.CLIENT_ID,
             scope: config.SCOPE
-        });
+        }).then(function () {
+          // Listen for sign-in state changes.
+            gapi.auth2.getAuthInstance().isSignedIn.listen((val) => {
+                console.log(val)
+                setUserSignInStatus(val);
+            });
 
-        auth2.currentUser.listen((user) => {
-            // console.log('User now: ', user, typeof user);
-            setUserDetails(user);
-        });
+            gapi.client.load('services', 'v1.0', function() {
+                gapi.auth.authorize({
+                    client_id: config.CLIENT_ID,
+                    scope: config.SCOPE,
+                    immediate: true
+                }, function() {
+                    gapi.client.oauth2.userinfo.get().execute(function(resp) {
+                       if (!resp.code) {
+                            console.log('resp', resp)
+                            setUserDetails(resp);
+                        }
+                    });
+                })
+            }, '//' + 'carbonated-games-dev2.appspot.com' + '/_ah/api');
 
-        auth2.isSignedIn.listen((val) => {
-            // console.log('Signin state changed to ', val);
-            setUserSignInStatus(val);
-        });
+            gapi.client.load('oauth2', 'v2', function() {
+                gapi.auth.authorize({
+                    client_id: config.CLIENT_ID,
+                    scope: config.SCOPE,
+                    immediate: true
+                }, function() {
+                    gapi.client.oauth2.userinfo.get().execute(function(resp) {
+                       if (!resp.code) {
+                            console.log('resp2', resp)
+                            setUserDetails(resp);
+                        }
+                    });
+                })
+            });
 
-        auth2.then(function () {
-          if (!auth2.isSignedIn.get()) {
-            auth2.signIn();
-          }
+            if(!gapi.auth2.getAuthInstance().isSignedIn.get()) {
+                gapi.auth2.getAuthInstance().signIn();
+            } else {
+                setUserSignInStatus(true);
+            }
         });
     };
 
     render() {
         const { userDetails, signedIn } = this.props.appReducer;
+        console.log(userDetails, signedIn)
+        const hasUser = Object.keys(userDetails);
         return (
             <div>
-                {!signedIn && <div>Please sign in</div>}
-                {signedIn && <div>
+                {(!signedIn && !hasUser) && <div>Please sign in</div>}
+                {(signedIn && hasUser) && <div>
                     <HeaderWrapper data={userDetails}/>
                     <AppContent />
                     <FooterWrapper />

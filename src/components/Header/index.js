@@ -46,7 +46,8 @@ class HeaderWrapper extends Component {
 
     render() {
         const { data } = this.props;
-        const { U3, ofa } = data.w3;
+        const { given_name, email, picture } = data;
+        console.log(data)
         return (
             <AppHeader>
                 <AppBar
@@ -62,12 +63,12 @@ class HeaderWrapper extends Component {
                             targetOrigin={{horizontal: 'right', vertical: 'top'}}
                             anchorOrigin={{horizontal: 'right', vertical: 'top'}}
                         >
-                            <MenuItem primaryText={U3} />
+                            <MenuItem primaryText={email} />
                             <MenuItem primaryText="Sign out" />
                         </IconMenu>
                     }
                 >
-                <Greeting>Hello, {ofa}</Greeting>
+                <Greeting>Hello, {given_name}</Greeting>
                 <UserAvatar>N</UserAvatar>
                 </AppBar>
                 <Drawer
