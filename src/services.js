@@ -1,3 +1,15 @@
+/* global gapi */
+/**
+ */
+export const gamesGetAll = (callback) => {
+    gapi.client.services.games
+        .getAll()
+        .execute((resp) => {
+            callback(resp);
+        });
+};
+
+
 /**
  */
 export const gamesAdd = (params, callback) => {

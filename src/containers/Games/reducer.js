@@ -9,7 +9,7 @@ export default function gameReducer(state = initialState, action) {
         case gamesConstants.ADD_GAME:
             return {
                 ...state,
-                gameList: action.list
+                gameList: [...action.list]
             }
         default:
             return state;

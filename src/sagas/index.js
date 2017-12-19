@@ -1,5 +1,5 @@
 //rootSaga.js
-import gameSaga from '../containers/Games/sagas';
+// import gameSaga from '../containers/Games/sagas';
 import appSaga from '../containers/App/sagas';
 
 /**
@@ -31,5 +31,5 @@ function combineSagas(...sagas){
 
 export default combineSagas(
     appSaga,
-    gameSaga
+    // gameSaga
 )

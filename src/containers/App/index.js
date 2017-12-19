@@ -14,6 +14,9 @@ import RaisedButton from 'material-ui/RaisedButton';
 class App extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            gapiLoaded: false
+        }
     };
 
     componentDidMount() {
@@ -27,6 +30,7 @@ class App extends Component {
         loadScript('https://apis.google.com/js/client.js')
             .then((script) => {
                 gapi.load('client:auth2', component.initSigninV2);
+                component.setState({ gapiLoaded: true })
             })
             .catch((err: Error) => {
                 console.error(err.message);
@@ -44,7 +48,6 @@ class App extends Component {
         }).then(function () {
           // Listen for sign-in state changes.
             gapi.auth2.getAuthInstance().isSignedIn.listen((val) => {
-                console.log(val)
                 setUserSignInStatus(val);
             });
 
@@ -56,7 +59,6 @@ class App extends Component {
                 }, function() {
                     gapi.client.oauth2.userinfo.get().execute(function(resp) {
                        if (!resp.code) {
-                            console.log('resp', resp)
                             setUserDetails(resp);
                         }
                     });
@@ -71,7 +73,6 @@ class App extends Component {
                 }, function() {
                     gapi.client.oauth2.userinfo.get().execute(function(resp) {
                        if (!resp.code) {
-                            console.log('resp2', resp)
                             setUserDetails(resp);
                         }
                     });
@@ -88,12 +89,13 @@ class App extends Component {
 
     render() {
         const { userDetails, signedIn } = this.props.appReducer;
-        console.log(userDetails, signedIn)
+        const { gapiLoaded } = this.state;
         const hasUser = Object.keys(userDetails);
+        console.log(hasUser)
         return (
             <div>
-                {(!signedIn && !hasUser) && <div>Please sign in</div>}
-                {(signedIn && hasUser) && <div>
+                {(!hasUser) && <div>Please sign in</div>}
+                {(signedIn && hasUser.length && gapiLoaded) && <div>
                     <HeaderWrapper data={userDetails}/>
                     <AppContent />
                     <FooterWrapper />
