@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
-import InputField from '../Input';
 import styled from 'styled-components';
 import { colors } from '../../variables';
 
@@ -15,44 +13,31 @@ const DialogWrapper = styled(Dialog)`
 `;
 
 class AppModal extends Component {
- state = {
-    open: false,
-  };
-
-  handleOpen = () => {
-    this.setState({open: true});
-  };
-
-  handleClose = () => {
-    this.setState({open: false});
-  };
 
   render() {
+    const { handleSubmit, children, title, handleClose, open,  } = this.props;
     const actions = [
       <FlatButton
         label="Cancel"
-        onClick={this.handleClose}
+        onClick={handleClose}
       />,
       <FlatButton
         label="Submit"
         primary={true}
-        onClick={this.handleClose}
+        onClick={handleSubmit}
       />,
     ];
 
     return (
-      <div>
-        <RaisedButton label="Show Modal" onClick={this.handleOpen} fullWidth={true}/>
         <DialogWrapper
-          title="Add New"
+          title={title}
           actions={actions}
           modal={false}
-          open={this.state.open}
-          onRequestClose={this.handleClose}
+          open={open}
+          onRequestClose={handleClose}
         >
-          <InputField placeholder="" label="Enter New Name" />
+            {children}
         </DialogWrapper>
-      </div>
     );
   }
 }
