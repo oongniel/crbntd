@@ -1,16 +1,21 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { addGame } from './actions';
+import { addGame, setGameName } from './actions';
 import Games from './Games';
 
 const mapStateToProps = (state) => {
+    const { gameList, gameName } = state.gameReducer;
     return {
-        gameList: state.gameReducer
+        gameList,
+        gameName
     }
 };
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators(
-        { addGame },
+        { 
+            addGame,
+            setGameName
+        },
     dispatch)
 }
 

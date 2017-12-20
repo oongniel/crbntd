@@ -1,7 +1,8 @@
 import { gamesConstants } from './constants';
 
 const initialState = {
-    gameList: []
+    gameList: [],
+    gameName: ''
 };
 
 export default function gameReducer(state = initialState, action) {
@@ -10,6 +11,11 @@ export default function gameReducer(state = initialState, action) {
             return {
                 ...state,
                 gameList: [...action.list]
+            }
+        case gamesConstants.SET_NEW_GAME_NAME:
+            return {
+                ...state,
+                gameName: action.name
             }
         default:
             return state;

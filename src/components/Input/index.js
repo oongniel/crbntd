@@ -3,7 +3,7 @@ import TextField from 'material-ui/TextField';
 
 class InputField extends Component {
     render() {
-        const { placeholder, type, label, errorMessage, disabled, multiLine } = this.props;
+        const { placeholder, type, label, errorMessage, disabled, multiLine, onChange } = this.props;
         return (
             <TextField
                 hintText={placeholder}
@@ -13,6 +13,7 @@ class InputField extends Component {
                 fullWidth={true}
                 disabled={disabled}
                 multiLine={multiLine}
+                onChange={onChange}
             />
         );
     }

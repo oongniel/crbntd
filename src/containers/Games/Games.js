@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { addGame } from './actions';
-import { gamesGetAll } from '../../services';
+import { gamesGetAll, gamesAdd } from '../../services';
 import {Card, CardHeader, CardText} from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import AddButton from 'material-ui/svg-icons/content/add';
@@ -24,7 +24,9 @@ class Games extends React.Component {
     _getAllGames = () => {
         const component = this;
         gamesGetAll((resp) => {
-            component.props.addGame(resp.data.games);
+            if(!!resp.data) {
+                component.props.addGame(resp.data.games);
+            }
         });
     }
 
@@ -37,8 +39,22 @@ class Games extends React.Component {
         this.setState({ modalOpen: !modalOpen });
     }
 
-    __handleFormSubmit= () => {
-        alert();
+    _handleFormSubmit= () => {
+        const component = this;
+        const { gameName } = this.props;
+        const params = {
+            name: gameName
+        };
+        gamesAdd(params, (resp) => {
+            if(resp.message === 'OK') {
+                this._handleModalClose();
+                this._getAllGames();
+            }
+        });
+    }
+
+    _setGameName = (val) => {
+        this.props.setGameName(val)
     }
 
     componentDidMount() {
@@ -46,7 +62,7 @@ class Games extends React.Component {
     };
 
     render() {
-        const { gameList } = this.props.gameList;
+        const { gameList } = this.props;
         const { modalOpen } = this.state;
         return (
             <Card>
@@ -94,6 +110,7 @@ class Games extends React.Component {
                     handleSubmit={this._handleFormSubmit}
                     handleClose={this._handleModalClose}
                     open={modalOpen}
+                    setGameName={this._setGameName}
                 />
             </Card>
         );
