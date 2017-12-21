@@ -4,7 +4,6 @@ import { gamesGetAll, gamesAdd } from '../../services';
 import {Card, CardHeader, CardText} from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import AddButton from 'material-ui/svg-icons/content/add';
-import CircularProgress from 'material-ui/CircularProgress';
 import {
   Table,
   TableBody,
@@ -14,6 +13,7 @@ import {
   TableRowColumn,
 } from 'material-ui/Table';
 import AddGame from './AddGame';
+import AppLoadingIndicator from '../../components/Loader';
 
 class Games extends React.Component {
 
@@ -46,6 +46,9 @@ class Games extends React.Component {
             name: gameName
         };
         gamesAdd(params, (resp) => {
+            if(resp.errorCode === 100) {
+                //Do on error: Unauthorized
+            }
             if(resp.message === 'OK') {
                 this._handleModalClose();
                 this._getAllGames();
@@ -64,56 +67,58 @@ class Games extends React.Component {
     render() {
         const { gameList } = this.props;
         const { modalOpen } = this.state;
-        return (
-            <Card>
-                <CardHeader
-                    title="Games"
-                    subtitle="List of Available Games"
-                    titleStyle={{ fontSize: '2em'}}
-                />
-                <CardText >
-                    <RaisedButton
-                        label="Add Game"
-                        secondary={true}
-                        icon={<AddButton />}
-                        onClick={this._handleModalOpen.bind(this)}
+        if(gameList.length) {
+            return (
+                <Card>
+                    <CardHeader
+                        title="Games"
+                        subtitle="List of Available Games"
+                        titleStyle={{ fontSize: '2em'}}
                     />
-                    {!gameList.length && 
-                        <div>
-                            <span>Loading games </span>
-                            <CircularProgress />
-                        </div>}
-                    {gameList.length && <Table>
-                        <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
-                            <TableRow>
-                                <TableHeaderColumn style={{ width: '25%' }}>Name</TableHeaderColumn>
-                                <TableHeaderColumn style={{ width: '25%', textAlign: 'center' }}>ID</TableHeaderColumn>
-                                <TableHeaderColumn style={{ width: '25%', textAlign: 'center' }}>Running</TableHeaderColumn>
-                                <TableHeaderColumn style={{ width: '25%', textAlign: 'center' }}>Scheduled</TableHeaderColumn>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody displayRowCheckbox={false}>
-                            {gameList.length && gameList.map((val,index) => {
-                                return (
-                                <TableRow key={val.id}>
-                                    <TableRowColumn style={{ width: '25%' }}>{val.carbGameId}</TableRowColumn>
-                                    <TableRowColumn style={{ width: '25%' }}>{val.id}</TableRowColumn>
-                                    <TableRowColumn style={{ width: '25%', textAlign: 'center' }}>{val.runningEvents}</TableRowColumn>
-                                    <TableRowColumn style={{ width: '25%', textAlign: 'center' }}>{val.scheduledEvents}</TableRowColumn>
+                    <CardText >
+                        <RaisedButton
+                            label="Add Game"
+                            secondary={true}
+                            icon={<AddButton />}
+                            onClick={this._handleModalOpen.bind(this)}
+                        />
+                        <Table onRowSelection={() => {}}>
+                            <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
+                                <TableRow>
+                                    <TableHeaderColumn style={{ width: '25%' }}>Name</TableHeaderColumn>
+                                    <TableHeaderColumn style={{ width: '25%', textAlign: 'center' }}>ID</TableHeaderColumn>
+                                    <TableHeaderColumn style={{ width: '25%', textAlign: 'center' }}>Running</TableHeaderColumn>
+                                    <TableHeaderColumn style={{ width: '25%', textAlign: 'center' }}>Scheduled</TableHeaderColumn>
                                 </TableRow>
-                                );
-                            })}
-                        </TableBody>
-                    </Table>}
-                </CardText>
-                <AddGame
-                    handleSubmit={this._handleFormSubmit}
-                    handleClose={this._handleModalClose}
-                    open={modalOpen}
-                    setGameName={this._setGameName}
-                />
-            </Card>
-        );
+                            </TableHeader>
+                            <TableBody displayRowCheckbox={false}>
+                                {gameList.map((val,index) => {
+                                    return (
+                                    <TableRow key={val.id}>
+                                        <TableRowColumn style={{ width: '25%' }}>{val.carbGameId}</TableRowColumn>
+                                        <TableRowColumn style={{ width: '25%' }}>{val.id}</TableRowColumn>
+                                        <TableRowColumn style={{ width: '25%', textAlign: 'center' }}>{val.runningEvents}</TableRowColumn>
+                                        <TableRowColumn style={{ width: '25%', textAlign: 'center' }}>{val.scheduledEvents}</TableRowColumn>
+                                    </TableRow>
+                                    );
+                                })}
+                            </TableBody>
+                        </Table>
+                    </CardText>
+                    <AddGame
+                        handleSubmit={this._handleFormSubmit}
+                        handleClose={this._handleModalClose}
+                        open={modalOpen}
+                        setGameName={this._setGameName}
+                    />
+                </Card>
+            );
+        } else {
+            return (
+                <AppLoadingIndicator />
+            );
+        }
+       
     }
 }
 

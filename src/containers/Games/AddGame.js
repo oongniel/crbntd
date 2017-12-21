@@ -4,13 +4,11 @@ import AppModal from '../../components/Modal';
 import InputField from '../../components/Input';
 
 class AddGame extends Component {
-    state = {
-        gameName: ''
-    }
-
+    
     _onChange = (e) => {
         this.props.setGameName(e.target.value);
     }
+    
     render() {
         const { handleSubmit, handleClose, open } = this.props;
         return (

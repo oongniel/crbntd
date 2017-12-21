@@ -17,24 +17,24 @@ class AppModal extends Component {
   render() {
     const { handleSubmit, children, title, handleClose, open,  } = this.props;
     const actions = [
-      <FlatButton
-        label="Cancel"
-        onClick={handleClose}
-      />,
-      <FlatButton
-        label="Submit"
-        primary={true}
-        onClick={handleSubmit}
-      />,
+        <FlatButton
+            label="Cancel"
+            onClick={handleClose}
+        />,
+        <FlatButton
+            label="Submit"
+            primary={true}
+            onClick={handleSubmit}
+        />,
     ];
 
     return (
         <DialogWrapper
-          title={title}
-          actions={actions}
-          modal={false}
-          open={open}
-          onRequestClose={handleClose}
+            title={title}
+            actions={actions}
+            modal={false}
+            open={open}
+            onRequestClose={handleClose}
         >
             {children}
         </DialogWrapper>

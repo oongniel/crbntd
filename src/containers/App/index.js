@@ -91,17 +91,20 @@ class App extends Component {
         const { userDetails, signedIn } = this.props.appReducer;
         const { gapiLoaded } = this.state;
         const hasUser = Object.keys(userDetails);
-        console.log(hasUser)
-        return (
-            <div>
-                {(!hasUser) && <div>Please sign in</div>}
-                {(signedIn && hasUser.length && gapiLoaded) && <div>
+
+        if(signedIn && hasUser.length && gapiLoaded) {
+            return (
+                <div>
                     <HeaderWrapper data={userDetails}/>
                     <AppContent />
                     <FooterWrapper />
-                </div>}
-            </div>
-        );
+                </div>
+            );
+        } else {
+            return (
+                <div>Please sign in</div>
+            );
+        }
     }
 }
 

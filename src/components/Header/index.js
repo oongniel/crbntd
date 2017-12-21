@@ -48,6 +48,8 @@ class HeaderWrapper extends Component {
         const { data } = this.props;
         const { given_name, email, picture } = data;
         console.log(data)
+        // const bG = {`url('${picture}')`};
+        const bG = 'url(' + picture + ')';
         return (
             <AppHeader>
                 <AppBar
@@ -68,8 +70,8 @@ class HeaderWrapper extends Component {
                         </IconMenu>
                     }
                 >
-                <Greeting>Hello, {given_name}</Greeting>
-                <UserAvatar>N</UserAvatar>
+                {/*<Greeting>Hello, {given_name}</Greeting>*/}
+                <UserAvatar style={{ background: bG, backgroundSize: '40px' }} />
                 </AppBar>
                 <Drawer
                     docked={false}
